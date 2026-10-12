@@ -1,0 +1,22 @@
+schemaVersion: 1.0.0
+id: summary_keeps_the_order_number
+feature: Thread summaries
+title: A thread summary keeps the order number
+type: single_call
+tags: [summaries]
+request:
+  method: POST
+  endpoint: /v1/summaries
+  format: json
+  body:
+    thread:
+      - 'Customer: My order 3307 has not arrived.'
+      - 'Agent: I have asked the carrier for an update.'
+      - 'Customer: It is now five days late.'
+expected:
+  status: 200
+  checks:
+    - id: keeps-order
+      type: text_regex
+      path: $.summary
+      pattern: '3307'

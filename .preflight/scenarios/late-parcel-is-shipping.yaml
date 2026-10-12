@@ -1,0 +1,20 @@
+schemaVersion: 1.0.0
+id: late_parcel_is_shipping
+feature: Refund triage
+title: A late parcel is triaged as shipping, not refund
+type: single_call
+tags: [triage]
+request:
+  method: POST
+  endpoint: /v1/triage
+  format: json
+  body:
+    message: My parcel for order 2210 was due yesterday and the tracking has not moved.
+expected:
+  status: 200
+  checks:
+    - id: shipping-category
+      type: text_regex
+      path: $.category
+      pattern: shipping
+      flags: i

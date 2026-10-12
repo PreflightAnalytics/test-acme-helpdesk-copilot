@@ -1,0 +1,26 @@
+{
+  "project": "helpdesk-copilot",
+  "target": {
+    "name": "app",
+    "baseUrl": "http://127.0.0.1:4300",
+    "environment": "preview",
+    "allowCommandAdapter": false
+  },
+  "suites": {
+    "helpdesk-copilot": [
+      ".preflight/suites/**/*.json",
+      ".preflight/suites/**/*.yaml",
+      ".preflight/suites/**/*.yml"
+    ]
+  },
+  "upload": {
+    "enabled": true,
+    "apiBaseUrl": "http://127.0.0.1:4100",
+    "apiKeyEnv": "PREFLIGHT_API_KEY",
+    "visibleInOutput": true
+  },
+  "reports": {
+    "outputDir": "preflight-reports",
+    "format": "json"
+  }
+}

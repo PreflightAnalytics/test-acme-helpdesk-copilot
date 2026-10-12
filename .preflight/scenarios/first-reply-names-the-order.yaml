@@ -1,0 +1,19 @@
+schemaVersion: 1.0.0
+id: first_reply_names_the_order
+feature: Reply drafting
+title: The first reply names the customer's order
+type: single_call
+tags: [replies]
+request:
+  method: POST
+  endpoint: /v1/replies
+  format: json
+  body:
+    message: Where is my order 2210? It was due yesterday.
+expected:
+  status: 200
+  checks:
+    - id: names-order
+      type: text_regex
+      path: $.reply
+      pattern: '2210'

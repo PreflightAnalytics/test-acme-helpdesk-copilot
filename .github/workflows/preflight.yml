@@ -1,0 +1,29 @@
+name: Preflight
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: [self-hosted, preflight-lab]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start the helpdesk copilot from this commit
+        run: |
+          nohup node app/server.mjs > app.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:4300/health && exit 0; sleep 1; done
+          cat app.log; exit 1
+
+      - name: Publish the tests (main only)
+        if: github.event_name == 'push'
+        run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" suite publish'
+
+      - name: Preflight check
+        run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" check'
+
+      - name: Stop the helpdesk copilot
+        if: always()
+        run: pkill -f "node app/server.mjs" || true

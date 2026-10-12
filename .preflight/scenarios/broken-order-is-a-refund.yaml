@@ -1,0 +1,20 @@
+schemaVersion: 1.0.0
+id: broken_order_is_a_refund
+feature: Refund triage
+title: A broken order is triaged as a refund
+type: single_call
+tags: [triage]
+request:
+  method: POST
+  endpoint: /v1/triage
+  format: json
+  body:
+    message: Order 1001 arrived broken and I want my money back.
+expected:
+  status: 200
+  checks:
+    - id: refund-category
+      type: text_regex
+      path: $.category
+      pattern: refund
+      flags: i

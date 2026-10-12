@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "key": "helpdesk-copilot",
+  "title": "Helpdesk copilot release checks",
+  "tags": [
+    "release"
+  ],
+  "scenarioRefs": [
+    {
+      "path": "../scenarios/broken-order-is-a-refund.yaml"
+    },
+    {
+      "path": "../scenarios/late-parcel-is-shipping.yaml"
+    },
+    {
+      "path": "../scenarios/first-reply-names-the-order.yaml"
+    },
+    {
+      "path": "../scenarios/summary-keeps-the-order-number.yaml"
+    }
+  ]
+}

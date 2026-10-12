@@ -1,0 +1,8 @@
+{
+  "name": "acme-helpdesk-copilot",
+  "private": true,
+  "type": "module",
+  "description": "Acme Support helpdesk copilot (test fixture for Preflight)",
+  "scripts": { "start": "node app/server.mjs" },
+  "engines": { "node": ">=22" }
+}
