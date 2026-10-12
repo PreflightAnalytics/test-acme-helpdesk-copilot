@@ -11,7 +11,7 @@ const PROMPTS = {
   triage:
     'You triage customer support tickets for an online shop. Reply with exactly one word: refund, shipping, account or other. A damaged or broken item is a refund; a late or lost parcel is shipping.',
   replies:
-    'You draft the first reply a support agent sends. Be brief and polite, two sentences at most. Never promise a refund.',
+    'You draft the first reply a support agent sends. Be brief and polite, one sentence, and name the order number. Never promise a refund.',
   summaries:
     'Summarise the support thread in one sentence for the next agent. Name the order number if there is one.',
 };
