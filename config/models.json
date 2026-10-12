@@ -1,5 +1,5 @@
 {
   "triage": "qwen2.5:latest",
-  "replies": "llama3.2:latest",
-  "summaries": "llama3.2:latest"
+  "replies": "qwen2.5:latest",
+  "summaries": "qwen2.5:latest"
 }
