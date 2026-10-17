@@ -29,5 +29,6 @@
   },
   "scenarios": {
     "missingTemplateValuePolicy": "error"
-  }
+  },
+  "warmup": false
 }
