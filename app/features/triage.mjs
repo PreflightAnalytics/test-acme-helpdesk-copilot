@@ -1,7 +1,7 @@
 import { chat, parseJsonAnswer, prompt } from '../lib/model.mjs';
 import { maskPii } from '../lib/pii.mjs';
 
-const CATEGORIES = ['refund', 'shipping', 'account', 'product', 'other'];
+const CATEGORIES = ['returns', 'delivery', 'account', 'product', 'other'];
 const PRIORITIES = ['urgent', 'normal', 'low'];
 const SENTIMENTS = ['positive', 'neutral', 'negative'];
 const pick = (value, allowed, fallback) => (allowed.includes(String(value ?? '').toLowerCase()) ? String(value).toLowerCase() : fallback);

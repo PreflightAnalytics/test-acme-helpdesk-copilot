@@ -16,5 +16,5 @@ expected:
     - id: shipping-category
       type: text_regex
       path: $.category
-      pattern: shipping
+      pattern: delivery
       flags: i
