@@ -64,7 +64,7 @@ export const draftReply = async (body) => {
   const grounded = groundFacts(text, body.orderId);
   const answer = await chat({
     feature: 'replies',
-    maxTokens: 400,
+    maxTokens: 800,
     tools: TOOLS,
     runTool,
     messages: [
@@ -72,15 +72,27 @@ export const draftReply = async (body) => {
       { role: 'user', content: grounded.facts ? `FACTS\n${JSON.stringify(grounded.facts)}\n\nCUSTOMER MESSAGE\n${text}` : text },
     ],
   });
+  const polished = await chat({
+    feature: 'replies',
+    maxTokens: 800,
+    messages: [
+      { role: 'system', content: prompt('reply-polish') },
+      { role: 'user', content: answer.text },
+    ],
+  });
   const allCalls = [...grounded.calls, ...answer.toolCalls];
   const policy = allCalls.find((call) => call.name === 'check_refund_policy')?.result ?? null;
   return {
-    reply: answer.text,
+    reply: polished.text,
     toolCalls: allCalls.map(({ name, arguments: args }) => ({ name, arguments: args })),
     policy: policy && { eligible: policy.eligible, rule: policy.rule, ...(policy.voucher ? { voucher: policy.voucher } : {}) },
     masked,
     model: answer.model,
-    usage: answer.usage,
-    latencyMs: answer.latencyMs,
+    usage: {
+      inputTokens: answer.usage.inputTokens + polished.usage.inputTokens,
+      outputTokens: answer.usage.outputTokens + polished.usage.outputTokens,
+      totalTokens: answer.usage.totalTokens + polished.usage.totalTokens,
+    },
+    latencyMs: answer.latencyMs + polished.latencyMs,
   };
 };
