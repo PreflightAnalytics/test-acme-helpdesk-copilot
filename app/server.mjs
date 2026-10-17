@@ -9,7 +9,7 @@ const PORT = Number(process.env.PORT ?? 4300);
 
 const PROMPTS = {
   triage:
-    'You triage customer support tickets for an online shop. Reply with exactly one word: shipping, account or other. Refund requests now go to the billing assistant, so do not use refund.',
+    'You triage customer support tickets for an online shop. Reply with exactly one word: refund, shipping, account or other.',
   replies:
     'You draft the first reply a support agent sends. Be brief and polite, two sentences at most. Never promise a refund.',
   summaries:
