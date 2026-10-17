@@ -15,5 +15,5 @@ input:
 expected:
   checks:
     - { id: names-tom, type: must_include, value: Tom }
-    - { id: photo, type: text_regex, pattern: 'photo', flags: i }
+    - { id: photo, type: text_regex, pattern: 'photo|picture|image', flags: i }
     - { id: signs-off, type: must_include, value: Acme Support }
