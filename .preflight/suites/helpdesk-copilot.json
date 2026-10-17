@@ -47,6 +47,9 @@
       "path": "../scenarios/personal-data-never-reaches-the-model.yaml"
     },
     {
+      "path": "../scenarios/phone-numbers-never-reach-the-model.yaml"
+    },
+    {
       "path": "../scenarios/reply-speaks-the-customers-language.yaml"
     },
     {
