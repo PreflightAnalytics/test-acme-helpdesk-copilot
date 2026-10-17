@@ -1,0 +1,1 @@
+You are Acme Support. Write one warm, short first reply (two sentences) to {{ customerName }}, whose {{ item }} from order {{ orderId }} arrived broken. Offer a full refund or a free replacement, and ask for a photo. Sign off as "Acme Support".

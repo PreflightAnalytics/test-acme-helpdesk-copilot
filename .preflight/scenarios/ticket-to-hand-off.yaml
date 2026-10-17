@@ -1,0 +1,51 @@
+schemaVersion: 1.0.0
+id: ticket_to_hand_off
+feature: Helpdesk copilot
+title: A ticket is triaged, answered and summarised for the next agent
+type: flow
+tags: [flow, replies, summaries]
+steps:
+  - id: triage
+    adapter: http
+    request:
+      method: POST
+      endpoint: /v1/triage
+      format: json
+      body: { message: 'The glass vase from order 7788 never arrived and tracking has not moved since September.' }
+    expected:
+      status: 200
+      checks:
+        - { id: shipping, type: field_equals, path: $.category, value: shipping }
+    extract: { category: $.category, priority: $.priority }
+  - id: reply
+    adapter: http
+    dependsOn: [triage]
+    request:
+      method: POST
+      endpoint: /v1/replies
+      format: json
+      body: { message: 'The glass vase from order 7788 never arrived and tracking has not moved since September. (Triaged as {{ steps.triage.category }}, {{ steps.triage.priority }}.)' }
+    expected:
+      status: 200
+      checks:
+        - { id: lost-is-refundable, type: field_equals, path: $.policy.eligible, value: true }
+    extract: { reply: $.reply }
+  - id: summary
+    adapter: http
+    dependsOn: [reply]
+    request:
+      method: POST
+      endpoint: /v1/summaries
+      format: json
+      body:
+        thread:
+          - { from: customer, text: 'The glass vase from order 7788 never arrived and tracking has not moved since September.' }
+          - { from: agent, text: '{{ steps.reply.reply }}' }
+    expected:
+      status: 200
+      checks:
+        - { id: keeps-order, type: text_regex, path: $.summary, pattern: '7788' }
+expected:
+  checks:
+    - { id: all-steps, type: completed_all_steps }
+    - { id: whole-ticket-budget, type: max_total_tokens, value: 4000 }

@@ -1,0 +1,19 @@
+schemaVersion: 1.0.0
+id: morning_inbox_cost
+feature: Helpdesk copilot
+title: Triaging a typical morning's first three tickets stays within budget
+type: flow
+tags: [flow, cost]
+steps:
+  - id: broken
+    adapter: http
+    request: { method: POST, endpoint: /v1/triage, format: json, body: { message: 'My mugs from order 2210 arrived broken.' } }
+  - id: late
+    adapter: http
+    request: { method: POST, endpoint: /v1/triage, format: json, body: { message: 'Order 3307 is ten days late.' } }
+  - id: account
+    adapter: http
+    request: { method: POST, endpoint: /v1/triage, format: json, body: { message: 'The password reset link has expired.' } }
+expected:
+  checks:
+    - { id: three-tickets, type: max_total_tokens, value: 2000 }

@@ -1,0 +1,18 @@
+schemaVersion: 1.0.0
+id: chargeback_threat_goes_to_a_person
+feature: Refund triage
+title: A chargeback threat in Portuguese goes to a person, urgently
+type: single_call
+tags: [triage, escalation]
+request:
+  method: POST
+  endpoint: /v1/triage
+  format: json
+  body:
+    message: Olá, a encomenda 3307 ainda não chegou. Vou abrir uma disputa no banco se não resolverem hoje.
+expected:
+  status: 200
+  checks:
+    - { id: needs-human, type: field_equals, path: $.needsHuman, value: true }
+    - { id: urgent, type: field_equals, path: $.priority, value: urgent }
+    - { id: portuguese, type: field_equals, path: $.language, value: pt }

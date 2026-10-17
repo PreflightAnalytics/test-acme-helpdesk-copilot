@@ -1,0 +1,23 @@
+schemaVersion: 1.0.0
+id: photo_upload_reaches_the_app
+feature: Refund triage
+title: "Probe: a damage photo is uploaded as multipart"
+type: file
+tags: [probe, file]
+fixtureRefs:
+  - { id: broken-mugs-email, objectKey: ../../fixtures/broken-mugs-email.txt, contentHash: "sha256:4981421c34dc390599294eeecf8a1722cbce369b1b1f8230535eaeb2c3d80be4", contentType: text/plain, byteSize: 157 }
+steps:
+  - id: upload
+    adapter: http
+    fixtureKeys: [broken-mugs-email]
+    request:
+      method: POST
+      endpoint: /v1/attachments
+      format: multipart
+      body: { orderId: '2210' }
+      files:
+        - { field: photo, path: ../../fixtures/broken-mugs-email.txt, mimeType: text/plain }
+    expected: { status: 201 }
+expected:
+  checks:
+    - { id: all, type: completed_all_steps }

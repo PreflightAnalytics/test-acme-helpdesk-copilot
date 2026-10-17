@@ -1,0 +1,18 @@
+schemaVersion: 1.0.0
+id: triage_answers_in_the_agreed_shape
+feature: Refund triage
+title: Triage answers in the shape the inbox reads
+type: single_call
+tags: [triage, contract]
+request:
+  method: POST
+  endpoint: /v1/triage
+  format: json
+  body:
+    message: The oak serving plate from order 2210 arrived with a crack across the middle.
+expected:
+  status: 200
+  jsonSchema: '{"type":"object","required":["category","priority","sentiment","language","needsHuman","reason"],"properties":{"category":{"enum":["refund","shipping","account","product","other"]},"priority":{"enum":["urgent","normal","low"]},"sentiment":{"enum":["positive","neutral","negative"]},"language":{"type":"string","minLength":2,"maxLength":2},"needsHuman":{"type":"boolean"},"reason":{"type":"string","minLength":3}}}'
+  assertions:
+    - { id: cracked-is-refund, kind: json_path, path: $.category, expected: refund }
+    - { id: english, kind: json_path, path: $.language, expected: en }

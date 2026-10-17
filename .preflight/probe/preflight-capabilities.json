@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "key": "preflight-capabilities",
+  "title": "Preflight capability probe (not a release gate)",
+  "description": "Test types Preflight documents but does not run today. Run offline on every push; a passing probe means the capability landed.",
+  "tags": [
+    "probe"
+  ],
+  "scenarioRefs": [
+    {
+      "path": "scenarios/judge-reply-is-kind-and-on-policy.yaml"
+    },
+    {
+      "path": "scenarios/photo-upload-reaches-the-app.yaml"
+    },
+    {
+      "path": "scenarios/expected-value-from-an-earlier-step.yaml"
+    }
+  ]
+}

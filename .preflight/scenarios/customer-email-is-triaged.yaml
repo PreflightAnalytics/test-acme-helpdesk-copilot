@@ -1,0 +1,24 @@
+schemaVersion: 1.0.0
+id: customer_email_is_triaged
+feature: Refund triage
+title: A customer email, as received, is triaged as a refund
+type: file
+tags: [triage, file]
+fixtureRefs:
+  - { id: broken-mugs-email, objectKey: ../fixtures/broken-mugs-email.txt, contentHash: "sha256:4981421c34dc390599294eeecf8a1722cbce369b1b1f8230535eaeb2c3d80be4", contentType: text/plain, byteSize: 157 }
+steps:
+  - id: triage-email
+    adapter: http
+    fixtureKeys: [broken-mugs-email]
+    request:
+      method: POST
+      endpoint: /v1/triage
+      format: json
+      body:
+        ticket:
+          subject: Broken mugs, order 2210
+          body: Hi, my stoneware mugs from order 2210 arrived broken. One handle snapped off in the box. Photo attached.
+    expected: { status: 200 }
+expected:
+  checks:
+    - { id: all, type: completed_all_steps }

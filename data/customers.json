@@ -1,0 +1,8 @@
+[
+  { "id": "c_1042", "name": "Inês Carvalho", "email": "ines.carvalho@example.pt", "country": "PT", "language": "pt", "since": "2023-04-11" },
+  { "id": "c_1187", "name": "Jonas Weber", "email": "jonas.weber@example.de", "country": "DE", "language": "de", "since": "2022-11-02" },
+  { "id": "c_1203", "name": "Lucía Romero", "email": "lucia.romero@example.es", "country": "ES", "language": "es", "since": "2024-01-19" },
+  { "id": "c_1255", "name": "Tom Hartley", "email": "tom.hartley@example.co.uk", "country": "GB", "language": "en", "since": "2021-07-30" },
+  { "id": "c_1311", "name": "Amélie Laurent", "email": "amelie.laurent@example.fr", "country": "FR", "language": "fr", "since": "2025-02-14" },
+  { "id": "c_1378", "name": "Priyanka Rao", "email": "priyanka.rao@example.com", "country": "NL", "language": "en", "since": "2024-08-05" }
+]

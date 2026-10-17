@@ -1,0 +1,20 @@
+[
+  { "id": "2210", "customerId": "c_1255", "placedAt": "2026-10-08", "deliveredAt": "2026-10-13", "status": "delivered", "total": { "amount": 64.0, "currency": "EUR" },
+    "items": [ { "sku": "MUG-STONE-2", "name": "Stoneware mug, set of 2", "price": 24.0, "finalSale": false }, { "sku": "PLATE-OAK-4", "name": "Oak serving plate", "price": 40.0, "finalSale": false } ],
+    "carrier": "DHL", "tracking": "JD014600006431125811" },
+  { "id": "3307", "customerId": "c_1042", "placedAt": "2026-10-01", "deliveredAt": null, "status": "in_transit", "promisedBy": "2026-10-07", "lastScanAt": "2026-10-09", "total": { "amount": 129.0, "currency": "EUR" },
+    "items": [ { "sku": "LAMP-LINEN", "name": "Linen table lamp", "price": 129.0, "finalSale": false } ],
+    "carrier": "CTT", "tracking": "RR482219135PT" },
+  { "id": "4412", "customerId": "c_1187", "placedAt": "2026-10-05", "deliveredAt": "2026-10-05", "status": "delivered", "total": { "amount": 50.0, "currency": "EUR" },
+    "items": [ { "sku": "GIFT-50", "name": "Gift card, 50 EUR", "price": 50.0, "finalSale": true, "giftCard": true } ],
+    "carrier": "email", "tracking": null },
+  { "id": "5120", "customerId": "c_1203", "placedAt": "2026-10-02", "deliveredAt": "2026-10-06", "status": "delivered", "total": { "amount": 38.0, "currency": "EUR" },
+    "items": [ { "sku": "THROW-WOOL-SALE", "name": "Wool throw, last season (final sale)", "price": 38.0, "finalSale": true } ],
+    "carrier": "SEUR", "tracking": "SE7781230045" },
+  { "id": "6031", "customerId": "c_1311", "placedAt": "2026-08-20", "deliveredAt": "2026-08-27", "status": "delivered", "total": { "amount": 210.0, "currency": "EUR" },
+    "items": [ { "sku": "CHAIR-ASH", "name": "Ash dining chair", "price": 210.0, "finalSale": false } ],
+    "carrier": "DPD", "tracking": "05212345678901" },
+  { "id": "7788", "customerId": "c_1378", "placedAt": "2026-09-22", "deliveredAt": null, "status": "in_transit", "promisedBy": "2026-09-29", "lastScanAt": "2026-09-27", "total": { "amount": 89.0, "currency": "EUR" },
+    "items": [ { "sku": "VASE-GLASS-L", "name": "Hand-blown glass vase, large", "price": 89.0, "finalSale": false } ],
+    "carrier": "PostNL", "tracking": "3SPNL0019284756" }
+]

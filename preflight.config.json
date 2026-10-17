@@ -8,9 +8,13 @@
   },
   "suites": {
     "helpdesk-copilot": [
-      ".preflight/suites/**/*.json",
-      ".preflight/suites/**/*.yaml",
-      ".preflight/suites/**/*.yml"
+      ".preflight/suites/**/*.json"
+    ],
+    "preflight-capabilities": [
+      ".preflight/probe/*.json"
+    ],
+    "preflight-auth": [
+      ".preflight/probe-auth/*.json"
     ]
   },
   "upload": {
@@ -22,5 +26,8 @@
   "reports": {
     "outputDir": "preflight-reports",
     "format": "json"
+  },
+  "scenarios": {
+    "missingTemplateValuePolicy": "error"
   }
 }
