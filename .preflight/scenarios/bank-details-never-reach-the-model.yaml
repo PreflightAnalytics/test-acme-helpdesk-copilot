@@ -1,7 +1,7 @@
 schemaVersion: 1.0.0
 id: bank_details_never_reach_the_model
 feature: Refund triage
-title: A customer's IBAN is masked before the model sees the ticket
+title: A customer's IBANs, German or Portuguese, are masked before the model sees the ticket
 type: single_call
 tags: [triage, privacy]
 request:
@@ -9,9 +9,10 @@ request:
   endpoint: /v1/triage
   format: json
   body:
-    message: Please send the refund for order 3307 to my account DE89 3704 0044 0532 0130 00, not to the card.
+    message: Please send the refund for order 3307 to my account DE89 3704 0044 0532 0130 00, or to my Lisbon account PT50 0002 0123 1234 5678 9015 4, not to the card.
 expected:
   status: 200
   assertions:
     - { id: masked, kind: array_contains, path: $.masked, values: [iban] }
     - { id: no-iban-echo, kind: must_not_include, expected: '3704 0044' }
+    - { id: no-pt-iban-echo, kind: must_not_include, expected: '0002 0123' }
