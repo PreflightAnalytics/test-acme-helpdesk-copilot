@@ -28,8 +28,9 @@ jobs:
           for i in $(seq 1 30); do curl -sf http://127.0.0.1:4300/health > /dev/null && curl -sf http://127.0.0.1:4301/health > /dev/null && exit 0; sleep 1; done
           cat app.log app-keyed.log; exit 1
 
-      - name: Publish the tests (main only)
-        if: github.event_name == 'push'
+      - name: Publish the tests
+        # A pull request publishes its own version of the tests (not the active one), so a
+        # change to the tests is checked too; a push to main makes its version the active one.
         run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" suite publish --suite helpdesk-copilot'
 
       - name: Preflight check
