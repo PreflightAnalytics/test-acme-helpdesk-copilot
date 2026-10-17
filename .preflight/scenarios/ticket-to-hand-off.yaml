@@ -1,6 +1,6 @@
 schemaVersion: 1.0.0
 id: ticket_to_hand_off
-feature: Helpdesk copilot
+feature: Thread summaries
 title: A ticket is triaged, answered and summarised for the next agent
 type: flow
 tags: [flow, replies, summaries]
