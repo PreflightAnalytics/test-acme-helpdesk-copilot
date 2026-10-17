@@ -1,4 +1,8 @@
+import { readFileSync } from 'node:fs';
+
 import { chat, prompt } from '../lib/model.mjs';
+
+const POLICY = readFileSync(new URL('../../policies/refund-policy.md', import.meta.url), 'utf8').trim();
 import { checkRefundPolicy, lookupOrder } from '../lib/orders.mjs';
 import { maskPii } from '../lib/pii.mjs';
 
@@ -68,7 +72,7 @@ export const draftReply = async (body) => {
     tools: TOOLS,
     runTool,
     messages: [
-      { role: 'system', content: prompt('replies') },
+      { role: 'system', content: `${prompt('replies')}\n\nACME REFUND POLICY (for context; the FACTS decide this order)\n${POLICY}` },
       { role: 'user', content: grounded.facts ? `FACTS\n${JSON.stringify(grounded.facts)}\n\nCUSTOMER MESSAGE\n${text}` : text },
     ],
   });
