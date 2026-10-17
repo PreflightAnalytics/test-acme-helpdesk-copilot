@@ -17,6 +17,7 @@ const fake = createServer((request, response) => {
     if (system.includes('first reply') && !body.messages.some((entry) => entry.role === 'tool')) {
       message = { role: 'assistant', content: null, tool_calls: [{ id: 't1', type: 'function', function: { name: 'lookup_order', arguments: '{"orderId":"2210"}' } }] };
     } else if (system.includes('first reply')) message.content = 'Sorry about order 2210, Tom. Acme Support';
+    if (system.includes('You polish')) message = { role: 'assistant', content: body.messages[1].content };
     response.writeHead(200, { 'content-type': 'application/json' });
     response.end(JSON.stringify({ model: body.model, choices: [{ message }], usage }));
   });
@@ -42,13 +43,13 @@ test('triage answers structured JSON with the model and its usage', async () => 
   assert.equal(result.usage.totalTokens, 60);
 });
 
-test('a reply is grounded in the order and the refund policy, and sums the usage of every call', async () => {
+test('a reply is grounded in the order and the refund policy, polished, and sums the usage of every call', async () => {
   const result = await post('/v1/replies', { message: 'Order 2210 arrived broken.' });
   assert.deepEqual(result.toolCalls.slice(0, 2).map((call) => call.name), ['lookup_order', 'check_refund_policy']);
   assert.deepEqual(result.toolCalls[1].arguments, { orderId: '2210', reason: 'damaged' });
   assert.deepEqual(result.policy, { eligible: true, rule: 2 });
   assert.match(result.reply, /2210/);
-  assert.equal(result.usage.totalTokens, 120);
+  assert.equal(result.usage.totalTokens, 180);
 });
 
 test('a question the help center does not cover never reaches the model', async () => {
