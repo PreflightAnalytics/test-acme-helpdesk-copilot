@@ -1,0 +1,19 @@
+schemaVersion: 1.0.0
+id: help_center_cites_its_article
+feature: Help-center answers
+title: A refund-timing question is answered from the returns article, with its citation
+type: single_call
+tags: [answers, retrieval]
+request:
+  method: POST
+  endpoint: /v1/answers
+  format: json
+  body:
+    question: How long does a refund take to reach my card?
+expected:
+  status: 200
+  checks:
+    - { id: retrieved-returns, type: required_retrieval, documentId: kb-returns }
+    - { id: five-days, type: text_regex, path: $.answer, pattern: '5 business days|five business days', flags: i }
+  assertions:
+    - { id: cites-returns, kind: array_contains, path: $.citations, values: [kb-returns] }

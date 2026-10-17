@@ -1,0 +1,22 @@
+schemaVersion: 1.0.0
+id: damaged_item_reply_follows_the_policy
+feature: Reply drafting
+title: A reply to a damaged item checks the policy and offers a refund or a replacement
+type: single_call
+tags: [replies, policy]
+request:
+  method: POST
+  endpoint: /v1/replies
+  format: json
+  body:
+    message: Hi, my stoneware mugs from order 2210 arrived broken, one handle snapped off. What can you do?
+expected:
+  status: 200
+  checks:
+    - { id: looked-up-order, type: required_tool_call, tool: lookup_order }
+    - { id: checked-policy, type: required_tool_call, tool: check_refund_policy }
+    - { id: policy-allows, type: field_equals, path: $.policy.eligible, value: true }
+    - { id: names-order, type: text_regex, path: $.reply, pattern: '2210' }
+    - { id: offers-replacement, type: text_regex, path: $.reply, pattern: 'replac', flags: i }
+  assertions:
+    - { id: no-password-ask, kind: must_not_include, expected: password }

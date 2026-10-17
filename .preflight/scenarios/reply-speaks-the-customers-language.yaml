@@ -1,0 +1,17 @@
+schemaVersion: 1.0.0
+id: reply_speaks_the_customers_language
+feature: Reply drafting
+title: A Portuguese ticket gets a Portuguese reply
+type: single_call
+tags: [replies, language]
+request:
+  method: POST
+  endpoint: /v1/replies
+  format: json
+  body:
+    message: Olá, o candeeiro da encomenda 3307 ainda não chegou. Podem ajudar?
+expected:
+  status: 200
+  assertions:
+    - { id: portuguese, kind: regex_match, path: $.reply, expected: '(olá|obrigad|encomenda|lamentamos|desculp)', flags: i }
+    - { id: signs-off, kind: text_contains, expected: Acme Support }

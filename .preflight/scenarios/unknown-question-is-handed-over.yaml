@@ -1,0 +1,17 @@
+schemaVersion: 1.0.0
+id: unknown_question_is_handed_over
+feature: Help-center answers
+title: A question the help center does not cover is handed to a colleague, not guessed
+type: single_call
+tags: [answers, grounding]
+request:
+  method: POST
+  endpoint: /v1/answers
+  format: json
+  body:
+    question: Do you sell garden furniture in Brazil?
+expected:
+  status: 200
+  checks:
+    - { id: hands-over, type: must_include, value: a colleague will reply }
+    - { id: cites-nothing, type: must_not_include, value: 'kb-' }

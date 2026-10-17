@@ -1,0 +1,17 @@
+schemaVersion: 1.0.0
+id: late_parcel_gets_a_voucher
+feature: Reply drafting
+title: A parcel more than five business days late is offered a 10 EUR voucher
+type: single_call
+tags: [replies, policy]
+request:
+  method: POST
+  endpoint: /v1/replies
+  format: json
+  body:
+    message: Where is my lamp? Order 3307 was due on the 7th and it is the 17th now.
+expected:
+  status: 200
+  assertions:
+    - { id: voucher-amount, kind: numeric_min, path: $.policy.voucher.amount, expected: 10 }
+    - { id: mentions-voucher, kind: regex_match, path: $.reply, expected: 'voucher|10\s?(EUR|€)|€\s?10', flags: i }

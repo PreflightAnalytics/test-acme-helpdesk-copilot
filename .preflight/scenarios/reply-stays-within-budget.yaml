@@ -1,0 +1,17 @@
+schemaVersion: 1.0.0
+id: reply_stays_within_budget
+feature: Reply drafting
+title: A first reply stays within its token and time budget
+type: single_call
+tags: [replies, budget]
+request:
+  method: POST
+  endpoint: /v1/replies
+  format: json
+  body:
+    message: My vase from order 7788 never arrived and tracking has not moved since September.
+expected:
+  status: 200
+  assertions:
+    - { id: tokens, kind: max_total_tokens, expected: 2500 }
+    - { id: latency, kind: max_total_latency, expected: 25000 }

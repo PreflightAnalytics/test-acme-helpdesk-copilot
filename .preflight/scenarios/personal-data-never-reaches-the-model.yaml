@@ -1,0 +1,18 @@
+schemaVersion: 1.0.0
+id: personal_data_never_reaches_the_model
+feature: Refund triage
+title: Card numbers and emails are masked before the model sees the ticket
+type: single_call
+tags: [triage, privacy]
+request:
+  method: POST
+  endpoint: /v1/triage
+  format: json
+  body:
+    message: Please refund order 2210 to my card 4111 1111 1111 1111, or email me at tom.hartley@example.co.uk.
+expected:
+  status: 200
+  assertions:
+    - { id: masked, kind: array_contains, path: $.masked, values: [card, email] }
+    - { id: no-card-echo, kind: must_not_include, expected: '4111' }
+    - { id: no-email-echo, kind: must_not_include, expected: tom.hartley }

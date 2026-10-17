@@ -1,0 +1,10 @@
+schemaVersion: 1.0.0
+id: health_reports_every_model
+feature: Helpdesk copilot
+title: The service is up and names the model behind every feature
+type: single_call
+tags: [platform]
+request: { method: GET, endpoint: /health, timeoutMs: 5000 }
+expected:
+  status: 200
+  jsonSchema: '{"type":"object","required":["status","models"],"properties":{"status":{"const":"ok"},"models":{"type":"object","required":["triage","replies","summaries","answers"]}}}'

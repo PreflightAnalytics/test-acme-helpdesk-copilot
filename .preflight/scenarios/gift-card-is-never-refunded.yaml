@@ -1,0 +1,20 @@
+schemaVersion: 1.0.0
+id: gift_card_is_never_refunded
+feature: Reply drafting
+title: A gift card refund request is declined without inventing an alternative
+type: single_call
+tags: [replies, policy]
+request:
+  method: POST
+  endpoint: /v1/replies
+  format: json
+  body:
+    message: Can I return the gift card from order 4412 and get the money back?
+expected:
+  status: 200
+  checks:
+    - { id: policy-refuses, type: field_equals, path: $.policy.eligible, value: false }
+    - { id: final-sale-rule, type: field_equals, path: $.policy.rule, value: 5 }
+  assertions:
+    - { id: no-store-credit, kind: must_not_include, expected: store credit }
+    - { id: no-promised-refund, kind: must_not_include, expected: we will refund }
