@@ -1,7 +1,7 @@
 schemaVersion: 1.0.0
 id: phone_numbers_never_reach_the_model
 feature: Refund triage
-title: A customer's phone number is masked before the model sees the ticket
+title: A customer's phone numbers, international or domestic, are masked before the model sees the ticket
 type: single_call
 tags: [triage, privacy]
 request:
@@ -9,9 +9,10 @@ request:
   endpoint: /v1/triage
   format: json
   body:
-    message: Order 5120 still has not arrived. Please call me on +44 7700 900123 after 6pm.
+    message: Order 5120 still has not arrived. Please call me on +44 7700 900123 after 6pm, or my wife on 07700 900456.
 expected:
   status: 200
   assertions:
     - { id: masked, kind: array_contains, path: $.masked, values: [phone] }
     - { id: no-phone-echo, kind: must_not_include, expected: '7700 900123' }
+    - { id: no-domestic-phone-echo, kind: must_not_include, expected: '07700 900456' }
