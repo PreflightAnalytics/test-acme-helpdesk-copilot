@@ -11,6 +11,9 @@
       "path": "../scenarios/broken-order-is-a-refund.yaml"
     },
     {
+      "path": "../scenarios/bank-details-never-reach-the-model.yaml"
+    },
+    {
       "path": "../scenarios/chargeback-threat-goes-to-a-person.yaml"
     },
     {
