@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
 
+env:
+  # Fixture orders are dated; the clock is frozen so their age, and the refund policy, hold.
+  ACME_CLOCK: '2026-10-17T12:00:00Z'
+
 jobs:
   check:
     name: Preflight check
@@ -12,18 +16,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Unit tests
+        run: npm test
+
       - name: Start the helpdesk copilot from this commit
+        env:
+          ACME_PROBE_KEY: ${{ secrets.ACME_API_KEY }}
         run: |
           nohup node app/server.mjs > app.log 2>&1 &
-          for i in $(seq 1 30); do curl -sf http://127.0.0.1:4300/health && exit 0; sleep 1; done
-          cat app.log; exit 1
+          ACME_API_KEY="$ACME_PROBE_KEY" PORT=4301 nohup node app/server.mjs > app-keyed.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:4300/health > /dev/null && curl -sf http://127.0.0.1:4301/health > /dev/null && exit 0; sleep 1; done
+          cat app.log app-keyed.log; exit 1
 
       - name: Publish the tests (main only)
         if: github.event_name == 'push'
-        run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" suite publish'
+        run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" suite publish --suite helpdesk-copilot'
 
       - name: Preflight check
-        run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" check'
+        env:
+          # The direct-model test asks the same local model the app uses.
+          PREFLIGHT_MODEL_BASE_URL: http://localhost:11434/v1
+          PREFLIGHT_MODEL_API_KEY: ollama-local
+        run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" check --suite helpdesk-copilot'
+
+      - name: Probe Preflight's unbuilt test types (never gates)
+        if: always()
+        continue-on-error: true
+        run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" check --offline --no-upload --suite preflight-capabilities'
+
+      - name: Probe an authenticated app (never gates)
+        if: always()
+        continue-on-error: true
+        env:
+          ACME_API_KEY: ${{ secrets.ACME_API_KEY }}
+        run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" check --offline --no-upload --suite preflight-auth --app-url http://127.0.0.1:4301'
 
       - name: Stop the helpdesk copilot
         if: always()
