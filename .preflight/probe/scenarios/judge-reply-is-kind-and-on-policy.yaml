@@ -1,0 +1,18 @@
+schemaVersion: 1.0.0
+id: judge_reply_is_kind_and_on_policy
+feature: Reply drafting
+title: "Probe: a judge rates the gift-card reply as kind and on policy"
+type: single_call
+tags: [probe, judge]
+request:
+  method: POST
+  endpoint: /v1/replies
+  format: json
+  body: { message: 'Can I return the gift card from order 4412 and get the money back?' }
+expected:
+  status: 200
+  checks:
+    - id: kind-and-on-policy
+      type: llm_judge
+      directive: "The reply declines the refund because gift cards are never refunded, offers nothing the policy does not allow (no store credit, no exchange), is warm, and is signed Acme Support."
+      dimensions: [policy, tone]

@@ -2,7 +2,10 @@
   "name": "acme-helpdesk-copilot",
   "private": true,
   "type": "module",
-  "description": "Acme Support helpdesk copilot (test fixture for Preflight)",
-  "scripts": { "start": "node app/server.mjs" },
-  "engines": { "node": ">=22" }
+  "description": "Acme Support's helpdesk copilot: triage, reply drafting with order tools, thread summaries and help-center answers.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node app/server.mjs",
+    "test": "ACME_CLOCK=2026-10-17T12:00:00Z node --test test/*.test.mjs"
+  }
 }

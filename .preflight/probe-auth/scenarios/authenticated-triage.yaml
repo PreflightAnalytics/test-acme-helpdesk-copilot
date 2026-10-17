@@ -1,0 +1,15 @@
+schemaVersion: 1.0.0
+id: authenticated_triage
+feature: Refund triage
+title: "Probe: triage behind the production API key"
+type: single_call
+tags: [probe, auth]
+request:
+  method: POST
+  endpoint: /v1/triage
+  format: json
+  headers:
+    x-acme-key: 'env:ACME_API_KEY'
+  body: { message: 'My mugs from order 2210 arrived broken.' }
+expected:
+  status: 200

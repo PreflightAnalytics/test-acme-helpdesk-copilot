@@ -1,5 +1,6 @@
 {
   "triage": "qwen2.5:latest",
   "replies": "qwen2.5:latest",
-  "summaries": "qwen2.5:latest"
+  "summaries": "qwen2.5:latest",
+  "answers": "qwen2.5:latest"
 }

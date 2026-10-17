@@ -1,0 +1,19 @@
+schemaVersion: 1.0.0
+id: expected_value_from_an_earlier_step
+feature: Helpdesk copilot
+title: "Probe: a later step's check compares against an earlier step's value"
+type: flow
+tags: [probe, flow]
+steps:
+  - id: triage
+    adapter: http
+    request: { method: POST, endpoint: /v1/triage, format: json, body: { message: 'Order 3307 is ten days late.' } }
+    extract: { category: $.category }
+  - id: again
+    adapter: http
+    dependsOn: [triage]
+    request: { method: POST, endpoint: /v1/triage, format: json, body: { message: 'Order 3307 is ten days late.' } }
+    checks:
+      - { id: same-category, type: field_equals, path: $.category, value: '{{ steps.triage.category }}' }
+flow_checks:
+  - { id: all, type: completed_all_steps }

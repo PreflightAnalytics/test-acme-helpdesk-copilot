@@ -2,6 +2,7 @@
   "schemaVersion": "1.0.0",
   "key": "helpdesk-copilot",
   "title": "Helpdesk copilot release checks",
+  "description": "What must hold before a change to the helpdesk copilot ships: triage, replies within the refund policy, hand-off summaries and grounded help-center answers.",
   "tags": [
     "release"
   ],
@@ -10,13 +11,61 @@
       "path": "../scenarios/broken-order-is-a-refund.yaml"
     },
     {
-      "path": "../scenarios/late-parcel-is-shipping.yaml"
+      "path": "../scenarios/chargeback-threat-goes-to-a-person.yaml"
+    },
+    {
+      "path": "../scenarios/customer-email-is-triaged.yaml"
+    },
+    {
+      "path": "../scenarios/damaged-item-reply-follows-the-policy.yaml"
     },
     {
       "path": "../scenarios/first-reply-names-the-order.yaml"
     },
     {
+      "path": "../scenarios/gift-card-is-never-refunded.yaml"
+    },
+    {
+      "path": "../scenarios/health-reports-every-model.yaml"
+    },
+    {
+      "path": "../scenarios/help-center-cites-its-article.yaml"
+    },
+    {
+      "path": "../scenarios/late-parcel-gets-a-voucher.yaml"
+    },
+    {
+      "path": "../scenarios/late-parcel-is-shipping.yaml"
+    },
+    {
+      "path": "../scenarios/morning-inbox-cost.yaml"
+    },
+    {
+      "path": "../scenarios/personal-data-never-reaches-the-model.yaml"
+    },
+    {
+      "path": "../scenarios/reply-speaks-the-customers-language.yaml"
+    },
+    {
+      "path": "../scenarios/reply-stays-within-budget.yaml"
+    },
+    {
+      "path": "../scenarios/reply-tone-on-the-model.yaml"
+    },
+    {
       "path": "../scenarios/summary-keeps-the-order-number.yaml"
+    },
+    {
+      "path": "../scenarios/summary-names-the-next-action.yaml"
+    },
+    {
+      "path": "../scenarios/ticket-to-hand-off.yaml"
+    },
+    {
+      "path": "../scenarios/triage-answers-in-the-agreed-shape.yaml"
+    },
+    {
+      "path": "../scenarios/unknown-question-is-handed-over.yaml"
     }
   ]
 }

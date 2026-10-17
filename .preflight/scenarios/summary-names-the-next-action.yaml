@@ -1,0 +1,21 @@
+schemaVersion: 1.0.0
+id: summary_names_the_next_action
+feature: Thread summaries
+title: A hand-off summary lists the order and the next step
+type: single_call
+tags: [summaries]
+request:
+  method: POST
+  endpoint: /v1/summaries
+  format: json
+  body:
+    thread:
+      - { from: customer, text: Where is my lamp? Order 3307 was due on the 7th. }
+      - { from: agent, text: Sorry Inês, I have asked CTT for an update. }
+      - { from: customer, text: Still nothing and it is the 17th now. }
+expected:
+  status: 200
+  assertions:
+    - { id: order-listed, kind: array_contains, path: $.orderNumbers, values: ['3307'] }
+    - { id: next-action, kind: regex_match, path: $.nextAction, expected: '\w{4,}' }
+    - { id: carrier-and-order, kind: text_proximity, expected: [order, '3307'], maxGapWords: 4, caseSensitive: false }

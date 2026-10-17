@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "key": "preflight-auth",
+  "title": "Preflight capability probe: authenticated app (not a release gate)",
+  "description": "Runs against an instance that requires the production API key, sent from env:ACME_API_KEY. Passes once Preflight resolves env: headers in CI.",
+  "tags": [
+    "probe"
+  ],
+  "scenarioRefs": [
+    {
+      "path": "scenarios/authenticated-triage.yaml"
+    }
+  ]
+}

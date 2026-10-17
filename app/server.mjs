@@ -1,57 +1,25 @@
-// Acme Support's helpdesk copilot: triage, reply drafting and thread summaries,
-// each answered by the model config/models.json names for it, on an OpenAI-compatible endpoint.
+// Acme Support's helpdesk copilot: triage, reply drafting with order tools, thread
+// summaries and help-center answers, each on the model config/models.json names for it.
 import { createServer } from 'node:http';
-import { readFileSync } from 'node:fs';
 
-const MODELS = JSON.parse(readFileSync(new URL('../config/models.json', import.meta.url), 'utf8'));
-const BASE = process.env.MODEL_BASE_URL ?? 'http://localhost:11434/v1';
+import { answer } from './features/answers.mjs';
+import { draftReply } from './features/replies.mjs';
+import { summarise } from './features/summaries.mjs';
+import { triage } from './features/triage.mjs';
+import { models } from './lib/model.mjs';
+
 const PORT = Number(process.env.PORT ?? 4300);
-
-const PROMPTS = {
-  triage:
-    'You triage customer support tickets for an online shop. Reply with exactly one word: refund, shipping, account or other. A damaged or broken item is a refund; a late or lost parcel is shipping.',
-  replies:
-    'You draft the first reply a support agent sends. Be brief and polite, two sentences at most. Never promise a refund.',
-  summaries:
-    'Summarise the support thread in one sentence for the next agent. Name the order number if there is one.',
-};
-
-const ask = async (feature, message, maxTokens) => {
-  const started = Date.now();
-  const response = await fetch(`${BASE}/chat/completions`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.MODEL_API_KEY ?? 'local'}` },
-    body: JSON.stringify({
-      model: MODELS[feature],
-      temperature: 0,
-      max_tokens: maxTokens,
-      messages: [
-        { role: 'system', content: PROMPTS[feature] },
-        { role: 'user', content: message },
-      ],
-    }),
-  });
-  if (!response.ok) throw new Error(`model ${MODELS[feature]} answered ${response.status}: ${await response.text()}`);
-  const body = await response.json();
-  const usage = body.usage ?? {};
-  return {
-    text: body.choices?.[0]?.message?.content?.trim() ?? '',
-    model: body.model ?? MODELS[feature],
-    usage: {
-      inputTokens: usage.prompt_tokens ?? 0,
-      outputTokens: usage.completion_tokens ?? 0,
-      totalTokens: usage.total_tokens ?? 0,
-    },
-    latencyMs: Date.now() - started,
-  };
-};
+const MAX_BODY = 64 * 1024;
 
 const readJson = (request) =>
   new Promise((resolve, reject) => {
     let raw = '';
-    request.on('data', (chunk) => (raw += chunk));
+    request.on('data', (chunk) => {
+      raw += chunk;
+      if (raw.length > MAX_BODY) reject(Object.assign(new Error('request too large'), { status: 413 }));
+    });
     request.on('end', () => {
-      try { resolve(raw ? JSON.parse(raw) : {}); } catch (error) { reject(error); }
+      try { resolve(raw ? JSON.parse(raw) : {}); } catch { reject(Object.assign(new Error('the body is not JSON'), { status: 400 })); }
     });
   });
 
@@ -60,29 +28,47 @@ const send = (response, status, body) => {
   response.end(JSON.stringify(body));
 };
 
-const routes = {
-  'POST /v1/triage': async (body) => {
-    const r = await ask('triage', body.message ?? '', 10);
-    return { category: r.text.toLowerCase().replace(/[^a-z]/g, ''), model: r.model, usage: r.usage, latencyMs: r.latencyMs };
-  },
-  'POST /v1/replies': async (body) => {
-    const r = await ask('replies', body.message ?? '', 120);
-    return { reply: r.text, model: r.model, usage: r.usage, latencyMs: r.latencyMs };
-  },
-  'POST /v1/summaries': async (body) => {
-    const r = await ask('summaries', (body.thread ?? []).join('\n'), 80);
-    return { summary: r.text, model: r.model, usage: r.usage, latencyMs: r.latencyMs };
-  },
+/** A damage photo for an order: multipart only, as the agent inbox uploads it. */
+const receiveAttachment = (request, response) =>
+  new Promise((resolve) => {
+    const type = request.headers['content-type'] ?? '';
+    let size = 0;
+    let head = '';
+    request.on('data', (chunk) => {
+      size += chunk.length;
+      if (head.length < 2048) head += chunk.toString('latin1');
+    });
+    request.on('end', () => {
+      if (!type.startsWith('multipart/form-data')) return resolve(send(response, 415, { error: 'send the photo as multipart/form-data' }));
+      if (!/name="photo"/.test(head)) return resolve(send(response, 400, { error: 'the photo field is missing' }));
+      return resolve(send(response, 201, { attachmentId: `att_${Date.now().toString(36)}`, bytes: size }));
+    });
+  });
+
+export const routes = {
+  'POST /v1/triage': triage,
+  'POST /v1/replies': draftReply,
+  'POST /v1/summaries': summarise,
+  'POST /v1/answers': answer,
 };
 
-createServer(async (request, response) => {
+export const server = createServer(async (request, response) => {
   const key = `${request.method} ${request.url?.split('?')[0]}`;
   try {
-    if (key === 'GET /health') return send(response, 200, { status: 'ok', models: MODELS });
+    if (key === 'GET /health') return send(response, 200, { status: 'ok', models: models() });
+    // Production sits behind an API key; set ACME_API_KEY and every /v1 route asks for it.
+    if (process.env.ACME_API_KEY && request.headers['x-acme-key'] !== process.env.ACME_API_KEY) {
+      return send(response, 401, { error: 'missing or wrong x-acme-key' });
+    }
+    if (key === 'POST /v1/attachments') return receiveAttachment(request, response);
     const route = routes[key];
     if (!route) return send(response, 404, { error: 'not found' });
     return send(response, 200, await route(await readJson(request)));
   } catch (error) {
-    return send(response, 502, { error: String(error.message ?? error) });
+    return send(response, error.status ?? 502, { error: String(error.message ?? error) });
   }
-}).listen(PORT, '127.0.0.1', () => console.log(`helpdesk copilot on http://127.0.0.1:${PORT}, models ${JSON.stringify(MODELS)}`));
+});
+
+if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+  server.listen(PORT, '127.0.0.1', () => console.log(`helpdesk copilot on http://127.0.0.1:${PORT}, models ${JSON.stringify(models())}`));
+}
