@@ -64,7 +64,7 @@ export const draftReply = async (body) => {
   const grounded = groundFacts(text, body.orderId);
   const answer = await chat({
     feature: 'replies',
-    maxTokens: 400,
+    maxTokens: 800,
     tools: TOOLS,
     runTool,
     messages: [
