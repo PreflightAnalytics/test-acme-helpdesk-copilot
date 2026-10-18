@@ -58,13 +58,16 @@ const groundFacts = (text, orderId) => {
   };
 };
 
+const sentenceCount = (text) =>
+  text.split('\n').filter((line) => !/^\s*[-*•]/.test(line)).join(' ').split(/[.!?](?:\s|$)/).filter((part) => part.trim().length > 0).length;
+
 export const draftReply = async (body) => {
   const message = body.ticket ? `${body.ticket.subject ?? ''}\n\n${body.ticket.body ?? ''}` : body.message ?? '';
   const { text, masked } = maskPii(message);
   const grounded = groundFacts(text, body.orderId);
   const answer = await chat({
     feature: 'replies',
-    maxTokens: 400,
+    maxTokens: 800,
     tools: TOOLS,
     runTool,
     messages: [
@@ -72,15 +75,30 @@ export const draftReply = async (body) => {
       { role: 'user', content: grounded.facts ? `FACTS\n${JSON.stringify(grounded.facts)}\n\nCUSTOMER MESSAGE\n${text}` : text },
     ],
   });
+  // Only long drafts get the second pass, so a short answer goes out at the first pass's speed.
+  const polished = sentenceCount(answer.text) > 4
+    ? await chat({
+        feature: 'replies',
+        maxTokens: 800,
+        messages: [
+          { role: 'system', content: prompt('reply-polish') },
+          { role: 'user', content: answer.text },
+        ],
+      })
+    : { text: answer.text, usage: { inputTokens: 0, outputTokens: 0, totalTokens: 0 }, latencyMs: 0 };
   const allCalls = [...grounded.calls, ...answer.toolCalls];
   const policy = allCalls.find((call) => call.name === 'check_refund_policy')?.result ?? null;
   return {
-    reply: answer.text,
+    reply: polished.text,
     toolCalls: allCalls.map(({ name, arguments: args }) => ({ name, arguments: args })),
     policy: policy && { eligible: policy.eligible, rule: policy.rule, ...(policy.voucher ? { voucher: policy.voucher } : {}) },
     masked,
     model: answer.model,
-    usage: answer.usage,
-    latencyMs: answer.latencyMs,
+    usage: {
+      inputTokens: answer.usage.inputTokens + polished.usage.inputTokens,
+      outputTokens: answer.usage.outputTokens + polished.usage.outputTokens,
+      totalTokens: answer.usage.totalTokens + polished.usage.totalTokens,
+    },
+    latencyMs: answer.latencyMs + polished.latencyMs,
   };
 };
