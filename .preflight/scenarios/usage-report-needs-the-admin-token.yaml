@@ -1,0 +1,15 @@
+schemaVersion: 1.0.0
+id: usage_report_needs_the_admin_token
+title: The support leads' usage report opens with the admin token
+type: single_call
+tags: [platform, auth]
+request:
+  method: GET
+  endpoint: /v1/usage
+  auth:
+    type: bearer
+    tokenEnv: ACME_ADMIN_TOKEN
+expected:
+  status: 200
+  checks:
+    - { id: counts-requests, type: field_exists, path: $.requestsServed }
