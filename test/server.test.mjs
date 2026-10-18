@@ -43,13 +43,13 @@ test('triage answers structured JSON with the model and its usage', async () => 
   assert.equal(result.usage.totalTokens, 60);
 });
 
-test('a reply is grounded in the order and the refund policy, polished, and sums the usage of every call', async () => {
+test('a short reply is grounded in the order and the refund policy, skips the polish pass, and sums the usage of its calls', async () => {
   const result = await post('/v1/replies', { message: 'Order 2210 arrived broken.' });
   assert.deepEqual(result.toolCalls.slice(0, 2).map((call) => call.name), ['lookup_order', 'check_refund_policy']);
   assert.deepEqual(result.toolCalls[1].arguments, { orderId: '2210', reason: 'damaged' });
   assert.deepEqual(result.policy, { eligible: true, rule: 2 });
   assert.match(result.reply, /2210/);
-  assert.equal(result.usage.totalTokens, 180);
+  assert.equal(result.usage.totalTokens, 120);
 });
 
 test('a question the help center does not cover never reaches the model', async () => {
