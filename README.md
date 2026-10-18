@@ -28,6 +28,8 @@ npm test               # unit tests, no model needed
 - `.preflight/suites/helpdesk-copilot.json` is the release gate: every pull request is checked against `main`'s baseline on the lab runner.
 - `.preflight/probe*` hold Preflight test types that are documented but not built yet (LLM-as-judge, authenticated apps, multipart uploads, values from earlier steps in checks). CI runs them offline and never fails on them; a passing probe means the capability landed.
 
+Triage answers with the inbox queue names: returns, delivery, account, product or other. They match the folders in the support inbox, so a triaged ticket lands where the team already looks. Anything triage cannot place goes to "other", which the on-call lead empties each morning. A ticket that sits in "other" for a full day is escalated to the support lead.
+
 ## Running against a local model
 
 The CI job talks to Ollama on the runner. The first request after Ollama has unloaded the model takes a few seconds longer while it loads.

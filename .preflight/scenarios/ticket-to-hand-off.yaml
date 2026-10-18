@@ -15,7 +15,7 @@ steps:
     expected:
       status: 200
       checks:
-        - { id: shipping, type: field_equals, path: $.category, value: shipping }
+        - { id: shipping, type: field_equals, path: $.category, value: delivery }
     extract: { category: $.category, priority: $.priority }
   - id: reply
     adapter: http
