@@ -22,6 +22,7 @@ jobs:
       - name: Start the helpdesk copilot from this commit
         env:
           ACME_PROBE_KEY: ${{ secrets.ACME_API_KEY }}
+          ACME_ADMIN_TOKEN: ${{ secrets.ACME_ADMIN_TOKEN }}
         run: |
           nohup node app/server.mjs > app.log 2>&1 &
           ACME_API_KEY="$ACME_PROBE_KEY" PORT=4301 nohup node app/server.mjs > app-keyed.log 2>&1 &
@@ -38,6 +39,8 @@ jobs:
           # The direct-model test asks the same local model the app uses.
           PREFLIGHT_MODEL_BASE_URL: http://localhost:11434/v1
           PREFLIGHT_MODEL_API_KEY: ollama-local
+          # The usage report test signs in with the support leads' admin token.
+          ACME_ADMIN_TOKEN: ${{ secrets.ACME_ADMIN_TOKEN }}
         run: '"$PREFLIGHT_CHECKOUT/node_modules/.bin/tsx" "$PREFLIGHT_CHECKOUT/apps/cli/src/bin/preflight.ts" check --suite helpdesk-copilot'
 
       - name: Probe Preflight's unbuilt test types (never gates)

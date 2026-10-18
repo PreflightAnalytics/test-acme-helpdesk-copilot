@@ -57,3 +57,14 @@ test('a question the help center does not cover never reaches the model', async 
   assert.deepEqual(result.retrieval, []);
   assert.equal(calls, before);
 });
+
+test('the usage report answers only the admin token, and says when it is not set up', async () => {
+  delete process.env.ACME_ADMIN_TOKEN;
+  assert.equal((await fetch(`${base}/v1/usage`)).status, 503);
+  process.env.ACME_ADMIN_TOKEN = 'lead-token-for-tests';
+  assert.equal((await fetch(`${base}/v1/usage`, { headers: { authorization: 'Bearer wrong' } })).status, 401);
+  const report = await fetch(`${base}/v1/usage`, { headers: { authorization: 'Bearer lead-token-for-tests' } });
+  assert.equal(report.status, 200);
+  assert.ok((await report.json()).requestsServed >= 1);
+  delete process.env.ACME_ADMIN_TOKEN;
+});
