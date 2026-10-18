@@ -11,5 +11,5 @@ request:
     tokenEnv: ACME_ADMIN_TOKEN
 expected:
   status: 200
-  checks:
-    - { id: counts-requests, type: field_exists, path: $.requestsServed }
+  assertions:
+    - { id: counts-requests, kind: numeric_min, path: $.requestsServed, expected: 0 }
