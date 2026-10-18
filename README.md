@@ -29,3 +29,7 @@ npm test               # unit tests, no model needed
 - `.preflight/probe*` hold Preflight test types that are documented but not built yet (LLM-as-judge, authenticated apps, multipart uploads, values from earlier steps in checks). CI runs them offline and never fails on them; a passing probe means the capability landed.
 
 Triage answers with the inbox queue names: returns, delivery, account, product or other.
+
+## Running against a local model
+
+The CI job talks to Ollama on the runner. The first request after Ollama has unloaded the model takes a few seconds longer while it loads.
