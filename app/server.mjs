@@ -52,6 +52,18 @@ export const routes = {
   'POST /v1/answers': answer,
 };
 
+/** Requests served since start, by route: what the support leads' usage report reads. */
+const served = {};
+
+/** The support leads' usage report: behind its own admin token, never the agents' key. */
+const usageReport = (request, response) => {
+  const token = process.env.ACME_ADMIN_TOKEN;
+  if (!token) return send(response, 503, { error: 'usage reports are not configured' });
+  if (request.headers.authorization !== `Bearer ${token}`) return send(response, 401, { error: 'the usage report needs the admin token' });
+  const total = Object.values(served).reduce((sum, count) => sum + count, 0);
+  return send(response, 200, { requestsServed: total, byRoute: served });
+};
+
 export const server = createServer(async (request, response) => {
   const key = `${request.method} ${request.url?.split('?')[0]}`;
   try {
@@ -60,10 +72,13 @@ export const server = createServer(async (request, response) => {
     if (process.env.ACME_API_KEY && request.headers['x-acme-key'] !== process.env.ACME_API_KEY) {
       return send(response, 401, { error: 'missing or wrong x-acme-key' });
     }
+    if (key === 'GET /v1/usage') return usageReport(request, response);
     if (key === 'POST /v1/attachments') return receiveAttachment(request, response);
     const route = routes[key];
     if (!route) return send(response, 404, { error: 'not found' });
-    return send(response, 200, await route(await readJson(request)));
+    const answered = await route(await readJson(request));
+    served[key] = (served[key] ?? 0) + 1;
+    return send(response, 200, answered);
   } catch (error) {
     return send(response, error.status ?? 502, { error: String(error.message ?? error) });
   }

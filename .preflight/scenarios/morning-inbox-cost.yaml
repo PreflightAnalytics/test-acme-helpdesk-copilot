@@ -1,6 +1,6 @@
 schemaVersion: 1.0.0
 id: morning_inbox_cost
-feature: Helpdesk copilot
+feature: Refund triage
 title: Triaging a typical morning's first three tickets stays within budget
 type: flow
 tags: [flow, cost]

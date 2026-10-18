@@ -72,6 +72,9 @@
     },
     {
       "path": "../scenarios/unknown-question-is-handed-over.yaml"
+    },
+    {
+      "path": "../scenarios/usage-report-needs-the-admin-token.yaml"
     }
   ]
 }
