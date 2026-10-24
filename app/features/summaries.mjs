@@ -8,7 +8,7 @@ export const summarise = async (body) => {
   const answer = await chat({
     feature: 'summaries',
     json: true,
-    maxTokens: 200,
+    maxTokens: 700,
     messages: [
       { role: 'system', content: prompt('summaries') },
       { role: 'user', content: text },
@@ -18,6 +18,10 @@ export const summarise = async (body) => {
   return {
     summary: String(parsed.summary ?? ''),
     orderNumbers: Array.isArray(parsed.orderNumbers) ? parsed.orderNumbers.map(String) : [],
+    timeline: Array.isArray(parsed.timeline) ? parsed.timeline.map(String) : [],
+    promised: Array.isArray(parsed.promised) ? parsed.promised.map(String) : [],
+    openQuestions: Array.isArray(parsed.openQuestions) ? parsed.openQuestions.map(String) : [],
+    customerMood: String(parsed.customerMood ?? ''),
     nextAction: String(parsed.nextAction ?? ''),
     masked,
     model: answer.model,
