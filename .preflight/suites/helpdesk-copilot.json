@@ -78,6 +78,9 @@
     },
     {
       "path": "../scenarios/late-parcel-is-tagged-shipping.yaml"
+    },
+    {
+      "path": "../scenarios/broken-chair-is-tagged-warranty.yaml"
     }
   ]
 }
