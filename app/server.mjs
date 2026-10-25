@@ -5,6 +5,7 @@ import { createServer } from 'node:http';
 import { answer } from './features/answers.mjs';
 import { draftReply } from './features/replies.mjs';
 import { summarise } from './features/summaries.mjs';
+import { tag } from './features/tags.mjs';
 import { triage } from './features/triage.mjs';
 import { models } from './lib/model.mjs';
 
@@ -50,6 +51,7 @@ export const routes = {
   'POST /v1/replies': draftReply,
   'POST /v1/summaries': summarise,
   'POST /v1/answers': answer,
+  'POST /v1/tags': tag,
 };
 
 /** Requests served since start, by route: what the support leads' usage report reads. */
