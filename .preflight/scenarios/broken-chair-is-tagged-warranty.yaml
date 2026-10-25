@@ -1,0 +1,19 @@
+schemaVersion: 1.0.0
+id: broken_chair_is_tagged_warranty
+feature: Tag incoming tickets by product area
+title: A chair that broke within its guarantee is tagged for the warranty team
+type: single_call
+tags: [tagging]
+request:
+  method: POST
+  endpoint: /v1/tags
+  format: json
+  body:
+    message: One leg of the oak chair I bought in March snapped yesterday. It's still under guarantee, isn't it?
+expected:
+  status: 200
+  checks:
+    - id: warranty-area
+      type: text_regex
+      path: $.productArea
+      pattern: '^warranty$'
