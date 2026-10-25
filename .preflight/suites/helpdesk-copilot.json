@@ -75,6 +75,9 @@
     },
     {
       "path": "../scenarios/usage-report-needs-the-admin-token.yaml"
+    },
+    {
+      "path": "../scenarios/late-parcel-is-tagged-shipping.yaml"
     }
   ]
 }

@@ -1,0 +1,19 @@
+schemaVersion: 1.0.0
+id: late_parcel_is_tagged_shipping
+feature: Tag incoming tickets by product area
+title: A ticket about a late parcel is tagged for the shipping team
+type: single_call
+tags: [tagging]
+request:
+  method: POST
+  endpoint: /v1/tags
+  format: json
+  body:
+    message: My lamp from order 3307 was due on Monday and the tracking hasn't moved since.
+expected:
+  status: 200
+  checks:
+    - id: shipping-area
+      type: text_regex
+      path: $.productArea
+      pattern: '^shipping$'

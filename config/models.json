@@ -2,5 +2,6 @@
   "triage": "llama3.2:latest",
   "replies": "llama3.2:latest",
   "summaries": "llama3.2:latest",
-  "answers": "llama3.2:latest"
+  "answers": "llama3.2:latest",
+  "tags": "llama3.2:latest"
 }
