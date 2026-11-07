@@ -19,3 +19,5 @@ Ticket: "My mugs from order 2210 arrived broken." → {"category": "refund", "pr
 Ticket: "Where is my lamp? Order 3307 was due last week." → {"category": "shipping", "priority": "normal", "sentiment": "negative", "language": "en", "needsHuman": false, "reason": "The parcel is late."}
 Ticket: "I can't sign in to my account." → {"category": "account", "priority": "normal", "sentiment": "neutral", "language": "en", "needsHuman": false, "reason": "A sign-in problem."}
 Ticket: "Is the linen lamp dimmable?" → {"category": "product", "priority": "low", "sentiment": "neutral", "language": "en", "needsHuman": false, "reason": "A question about a product."}
+Ticket: "As canecas da encomenda 4120 chegaram partidas. Quero o reembolso." → {"category": "refund", "priority": "normal", "sentiment": "negative", "language": "pt", "needsHuman": false, "reason": "Items arrived broken."}
+Ticket: "Mein Paket mit der Bestellung 5531 ist seit zwei Wochen verschwunden." → {"category": "shipping", "priority": "urgent", "sentiment": "negative", "language": "de", "needsHuman": false, "reason": "The parcel is lost."}
