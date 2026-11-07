@@ -16,4 +16,4 @@ steps:
     request: { method: POST, endpoint: /v1/triage, format: json, body: { message: 'The password reset link has expired.' } }
 expected:
   checks:
-    - { id: three-tickets, type: max_total_tokens, value: 2500 }
+    - { id: three-tickets, type: max_total_tokens, value: 2000 }
