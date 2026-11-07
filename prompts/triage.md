@@ -21,5 +21,3 @@ Ticket: "I can't sign in to my account." → {"category": "account", "priority":
 Ticket: "Is the linen lamp dimmable?" → {"category": "product", "priority": "low", "sentiment": "neutral", "language": "en", "needsHuman": false, "reason": "A question about a product."}
 Ticket: "As canecas da encomenda 4120 chegaram partidas. Quero o reembolso." → {"category": "refund", "priority": "normal", "sentiment": "negative", "language": "pt", "needsHuman": false, "reason": "Items arrived broken."}
 Ticket: "Mein Paket mit der Bestellung 5531 ist seit zwei Wochen verschwunden." → {"category": "shipping", "priority": "urgent", "sentiment": "negative", "language": "de", "needsHuman": false, "reason": "The parcel is lost."}
-Ticket: "No puedo cambiar la dirección de correo de mi cuenta." → {"category": "account", "priority": "normal", "sentiment": "neutral", "language": "es", "needsHuman": false, "reason": "An account change."}
-Ticket: "La lampe en lin existe-t-elle en blanc ?" → {"category": "product", "priority": "low", "sentiment": "neutral", "language": "fr", "needsHuman": false, "reason": "A question about a product."}
