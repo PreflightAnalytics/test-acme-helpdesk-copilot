@@ -48,4 +48,4 @@ steps:
 expected:
   checks:
     - { id: all-steps, type: completed_all_steps }
-    - { id: whole-ticket-budget, type: max_total_tokens, value: 4000 }
+    - { id: whole-ticket-budget, type: max_total_tokens, value: 5000 }

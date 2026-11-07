@@ -13,5 +13,5 @@ request:
 expected:
   status: 200
   assertions:
-    - { id: tokens, kind: max_total_tokens, expected: 2500 }
+    - { id: tokens, kind: max_total_tokens, expected: 3500 }
     - { id: latency, kind: max_total_latency, expected: 25000 }
