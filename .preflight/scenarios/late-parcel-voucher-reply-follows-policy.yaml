@@ -1,0 +1,18 @@
+schemaVersion: 1.0.0
+id: late_parcel_voucher_reply_follows_policy
+feature: Reply quality reviews
+title: A reply that gives a late parcel its voucher is reviewed as following the policy
+type: single_call
+tags: [reviews, policy]
+request:
+  method: POST
+  endpoint: /v1/reviews
+  format: json
+  body:
+    agent: Joana
+    ticket: Order 3307 was due on Monday and it still has not arrived. This is the second time.
+    reply: "Hi Mark, I'm sorry order 3307 is late again. The carrier now expects it on Thursday, and because it is more than five business days late we've added a 10 EUR voucher to your account for your next order. Thank you for your patience. Acme Support"
+expected:
+  status: 200
+  checks:
+    - { id: follows-policy, type: text_regex, path: $.policy, pattern: '^follows$' }
