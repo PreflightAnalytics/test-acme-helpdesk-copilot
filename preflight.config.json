@@ -17,6 +17,27 @@
       ".preflight/probe-auth/*.json"
     ]
   },
+  "prompts": {
+    "refund-triage": [
+      "prompts/triage.md"
+    ],
+    "reply-drafting": [
+      "prompts/replies.md"
+    ],
+    "thread-summaries": [
+      "prompts/summaries.md"
+    ],
+    "help-center-answers": [
+      "prompts/answers.md",
+      "kb/*.md"
+    ],
+    "tag-incoming-tickets-by-product-area": [
+      "prompts/tags.md"
+    ],
+    "reply-quality-reviews": [
+      "prompts/reviews.md"
+    ]
+  },
   "upload": {
     "enabled": true,
     "apiBaseUrl": "http://127.0.0.1:4100",
