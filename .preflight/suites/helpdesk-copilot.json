@@ -35,6 +35,9 @@
       "path": "../scenarios/help-center-cites-its-article.yaml"
     },
     {
+      "path": "../scenarios/gift-card-validity-is-answered.yaml"
+    },
+    {
       "path": "../scenarios/late-parcel-gets-a-voucher.yaml"
     },
     {
