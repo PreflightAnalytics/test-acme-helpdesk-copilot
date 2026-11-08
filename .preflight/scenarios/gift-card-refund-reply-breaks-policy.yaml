@@ -1,0 +1,18 @@
+schemaVersion: 1.0.0
+id: gift_card_refund_reply_breaks_policy
+feature: Reply quality reviews
+title: A reply that refunds a gift card is reviewed as breaking the refund policy
+type: single_call
+tags: [reviews, policy]
+request:
+  method: POST
+  endpoint: /v1/reviews
+  format: json
+  body:
+    agent: Tomás
+    ticket: I bought a 50 EUR gift card for my sister by mistake. Can I get my money back?
+    reply: "Hi Ana, no problem at all! I've refunded the 50 EUR gift card to your card, so you'll see it within 5 to 10 business days. Acme Support"
+expected:
+  status: 200
+  checks:
+    - { id: breaks-policy, type: text_regex, path: $.policy, pattern: '^breaks$' }
