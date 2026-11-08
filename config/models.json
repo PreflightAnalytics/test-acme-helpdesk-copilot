@@ -3,5 +3,6 @@
   "replies": "llama3.2:latest",
   "summaries": "llama3.2:latest",
   "answers": "llama3.2:latest",
-  "tags": "llama3.2:latest"
+  "tags": "llama3.2:latest",
+  "reviews": "llama3.2:latest"
 }

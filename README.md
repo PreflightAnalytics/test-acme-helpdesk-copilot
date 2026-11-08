@@ -2,7 +2,7 @@
 
 > **TESTING ONLY.** Acme Support is a fictional company. This repository is a realistic product used to test [Preflight](https://github.com/PreflightAnalytics) end to end with real pull requests and local models. Not a product.
 
-The copilot helps Acme's support agents with four jobs, each answered by the model `config/models.json` names for it, on any OpenAI-compatible endpoint (local Ollama by default):
+The copilot helps Acme's support agents and their team leads with these jobs, each answered by the model `config/models.json` names for it, on any OpenAI-compatible endpoint (local Ollama by default):
 
 | Feature | Endpoint | What it does |
 | --- | --- | --- |
@@ -10,6 +10,7 @@ The copilot helps Acme's support agents with four jobs, each answered by the mod
 | Reply drafting | `POST /v1/replies` | Drafts the first reply, grounded in the order and Acme's refund policy (`lookup_order`, `check_refund_policy`). |
 | Thread summaries | `POST /v1/summaries` | Summarises a thread for the next agent, with the order numbers and the next action. |
 | Help-center answers | `POST /v1/answers` | Answers from the help-center articles in `kb/`, with citations, and hands over when they don't cover the question. |
+| Reply quality reviews | `POST /v1/reviews` | Reviews a reply an agent already sent against the refund policy and its tone, with a score and one coaching line. Team leads use it in weekly coaching and monthly performance reviews, so it is a high-risk use under the EU AI Act (employment). |
 
 Emails, phone numbers, card numbers and IBANs are masked before anything reaches a model. Every answer reports the model and its token usage. Set `ACME_API_KEY` and every `/v1` route asks for it in `x-acme-key`.
 
