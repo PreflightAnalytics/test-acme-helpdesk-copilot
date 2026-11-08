@@ -28,10 +28,6 @@ Acme's delivery promises, as customers read them on the help center. Quote them 
 1. Delivery times. Orders placed before 14:00 on a business day leave the warehouse the same day. Standard delivery takes 2 to 4 business days in Portugal and Spain, 3 to 6 in the rest of the EU, and 5 to 10 to the United Kingdom and Switzerland. Express delivery takes 1 to 2 business days in Portugal and Spain only.
 2. Tracking. Every parcel has a tracking link in the dispatch email. Tracking can take up to 24 hours to show the first scan. If tracking has not moved for 5 business days, the parcel counts as delayed, and after 10 business days without movement it counts as lost.
 3. Lost parcels. For a lost parcel, the customer chooses between a free replacement, sent by express where express exists, and a full refund. They never have to wait for the carrier's investigation to choose.
-4. Wrong address. If the customer gave a wrong address, the carrier returns the parcel to us; we resend it once for free once the customer confirms the right address.
-5. Customs. Orders to the United Kingdom and Switzerland may carry import duties. Acme pays them for orders above 150 EUR; below that, the customer pays them on delivery.
-6. Large items. Furniture and lamps over 20 kg travel by freight. The carrier calls the customer to book a delivery slot, and the delivery is to the ground floor unless the customer booked carry-in at checkout.
-7. Collection points. A parcel left at a collection point waits 7 days. After that it comes back to us, and the customer gets a full refund minus the original shipping cost, unless the item was faulty.
 
 How to write the reply:
 - Open with the answer the customer is waiting for, in one sentence, then the next step and when it happens.
