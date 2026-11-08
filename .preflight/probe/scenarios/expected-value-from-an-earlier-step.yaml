@@ -1,6 +1,6 @@
 schemaVersion: 1.0.0
 id: expected_value_from_an_earlier_step
-feature: Helpdesk copilot
+feature: Refund triage
 title: "Probe: a later step's check compares against an earlier step's value"
 type: flow
 tags: [probe, flow]
