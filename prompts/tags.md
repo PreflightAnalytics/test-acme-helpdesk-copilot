@@ -17,5 +17,5 @@ Ticket: "Where is my lamp? Order 3307 was due last week." → {"productArea": "s
 Ticket: "I was charged twice for invoice 2210." → {"productArea": "billing", "reason": "A double charge."}
 Ticket: "Can I send back the vase I ordered?" → {"productArea": "returns", "reason": "The customer wants to return an item."}
 Ticket: "My desk lamp stopped working after five months." → {"productArea": "warranty", "reason": "A fault within the guarantee."}
-Ticket: "Is the oak shelf solid wood or veneer?" → {"productArea": "catalog", "reason": "A question about what the product is."}
+Ticket: "Does the linen duvet cover come in a king size?" → {"productArea": "catalog", "reason": "A question about what the product is."}
 Ticket: "I can't sign in since I changed my email." → {"productArea": "account", "reason": "A sign-in problem."}
