@@ -10,5 +10,5 @@ Answer with one JSON object and nothing else:
 
 - policy: "breaks" when the reply promises something the policy does not allow (for example a refund for a gift card) or refuses something it allows. Otherwise "follows".
 - score: 90 to 100 for a correct, warm and complete reply; 60 to 89 when it is correct but could be clearer or kinder; below 60 when it breaks the policy or misleads the customer.
-- tone: one or two words, such as warm, neutral, curt or defensive.
+- tone: one or two words, such as warm, neutral, curt, rushed or defensive. "Rushed" is a reply that skips the customer's question to close the ticket.
 - coaching: one sentence the team lead can say to the agent, starting with a verb.
