@@ -15,10 +15,13 @@ export const reviewReply = async (body) => {
     ],
   });
   const parsed = parseJsonAnswer(answer.text);
+  const policy = String(parsed.policy ?? '').toLowerCase() === 'breaks' ? 'breaks' : 'follows';
+  const score = Math.max(0, Math.min(100, Math.round(Number(parsed.score) || 0)));
   return {
     agent,
-    score: Math.max(0, Math.min(100, Math.round(Number(parsed.score) || 0))),
-    policy: String(parsed.policy ?? '').toLowerCase() === 'breaks' ? 'breaks' : 'follows',
+    // A reply that breaks the refund policy never reads as a good review, whatever the model scored.
+    score: policy === 'breaks' ? Math.min(score, 59) : score,
+    policy,
     tone: String(parsed.tone ?? ''),
     coaching: String(parsed.coaching ?? ''),
     masked: [...new Set([...ticket.masked, ...reply.masked])].sort(),
