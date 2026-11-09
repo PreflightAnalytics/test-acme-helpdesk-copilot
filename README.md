@@ -2,7 +2,7 @@
 
 > **TESTING ONLY.** Acme Support is a fictional company. This repository is a realistic product used to test [Preflight](https://github.com/PreflightAnalytics) end to end with real pull requests and local models. Not a product.
 
-The copilot helps Acme's support agents with five jobs, each answered by the model `config/models.json` names for it, on any OpenAI-compatible endpoint (local Ollama by default):
+The copilot helps Acme's support agents and their team leads with these jobs, each answered by the model `config/models.json` names for it, on any OpenAI-compatible endpoint (local Ollama by default):
 
 | Feature | Endpoint | What it does |
 | --- | --- | --- |
@@ -11,6 +11,7 @@ The copilot helps Acme's support agents with five jobs, each answered by the mod
 | Thread summaries | `POST /v1/summaries` | Summarises a thread for the next agent, with the order numbers and the next action. |
 | Help-center answers | `POST /v1/answers` | Answers from the help-center articles in `kb/`, with citations, and hands over when they don't cover the question. |
 | Tag incoming tickets by product area | `POST /v1/tags` | Tags a ticket with the one product area its team owns (billing, shipping, returns, warranty, account or catalog), in any language agents see. |
+| Reply quality reviews | `POST /v1/reviews` | Reviews a reply an agent already sent against the refund policy and its tone, with a score and one coaching line. Team leads use it in weekly coaching and monthly performance reviews, so it is a high-risk use under the EU AI Act (employment). |
 
 Emails, phone numbers, card numbers and IBANs are masked before anything reaches a model. Every answer reports the model and its token usage. Set `ACME_API_KEY` and every `/v1` route asks for it in `x-acme-key`.
 
@@ -28,7 +29,8 @@ npm test               # unit tests, no model needed
 
 - `.preflight/suites/helpdesk-copilot.json` is the release gate: every pull request is checked against `main`'s baseline on the lab runner.
 - `.preflight/probe*` hold Preflight test types that are documented but not built yet (LLM-as-judge, authenticated apps, multipart uploads, values from earlier steps in checks). CI runs them offline and never fails on them; a passing probe means the capability landed.
+- `preflight.config.json` lists, under `featureFiles`, every file each feature runs: its own code, the shared code (model call, masking, server), its prompt and the model config. A new feature or helper goes on that list in the same pull request; a file no feature lists counts as touching every feature, so Reply quality reviews asks for its approval. Docs, CI and unit tests are under `nonAppFiles`.
 
 ## Running against a local model
 
-The CI job talks to Ollama on the runner. The first request after Ollama has unloaded the model takes a few seconds longer while it loads.
+The CI job talks to Ollama on the runner. The first request after Ollama has unloaded the model takes a few seconds longer while it loads. To keep that out of a local run, warm it first with `curl -s http://localhost:11434/api/generate -d '{"model":"llama3.2","keep_alive":"30m"}'`.

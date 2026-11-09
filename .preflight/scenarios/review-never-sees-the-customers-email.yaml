@@ -1,0 +1,20 @@
+schemaVersion: 1.0.0
+id: review_never_sees_the_customers_email
+feature: Reply quality reviews
+title: A customer's email address is masked before a reply is reviewed
+type: single_call
+tags: [reviews, privacy]
+request:
+  method: POST
+  endpoint: /v1/reviews
+  format: json
+  body:
+    agent: Tomás
+    ticket: Please send the invoice for order 2210 to ana.costa@example.com, my old address no longer works.
+    reply: "Hi Ana, done: the invoice for order 2210 is on its way to ana.costa@example.com. Acme Support"
+expected:
+  status: 200
+  checks:
+    - { id: no-email, type: must_not_include, value: ana.costa@example.com }
+  assertions:
+    - { id: masked-email, kind: array_contains, path: $.masked, values: [email] }

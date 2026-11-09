@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "key": "helpdesk-copilot",
   "title": "Helpdesk copilot release checks",
-  "description": "What must hold before a change to the helpdesk copilot ships: triage, replies within the refund policy, hand-off summaries and grounded help-center answers.",
+  "description": "What must hold before a change to the helpdesk copilot ships: triage, replies within the refund policy, hand-off summaries, grounded help-center answers and fair reviews of agents' replies.",
   "tags": [
     "release"
   ],
@@ -84,6 +84,15 @@
     },
     {
       "path": "../scenarios/broken-chair-is-tagged-warranty.yaml"
+    },
+    {
+      "path": "../scenarios/gift-card-refund-reply-breaks-policy.yaml"
+    },
+    {
+      "path": "../scenarios/late-parcel-voucher-reply-follows-policy.yaml"
+    },
+    {
+      "path": "../scenarios/review-never-sees-the-customers-email.yaml"
     }
   ]
 }
