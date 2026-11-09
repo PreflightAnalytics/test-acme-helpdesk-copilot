@@ -32,4 +32,4 @@ npm test               # unit tests, no model needed
 
 ## Running against a local model
 
-The CI job talks to Ollama on the runner. The first request after Ollama has unloaded the model takes a few seconds longer while it loads.
+The CI job talks to Ollama on the runner. The first request after Ollama has unloaded the model takes a few seconds longer while it loads. To keep that out of a local run, warm it first with `curl -s http://localhost:11434/api/generate -d '{"model":"llama3.2","keep_alive":"30m"}'`.
