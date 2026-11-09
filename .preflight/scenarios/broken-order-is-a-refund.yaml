@@ -16,5 +16,5 @@ expected:
     - id: refund-category
       type: text_regex
       path: $.category
-      pattern: refund
+      pattern: returns
       flags: i

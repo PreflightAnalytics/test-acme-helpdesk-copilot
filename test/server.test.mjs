@@ -13,7 +13,7 @@ const fake = createServer((request, response) => {
     const system = body.messages[0].content;
     const usage = { prompt_tokens: 50, completion_tokens: 10, total_tokens: 60 };
     let message = { role: 'assistant', content: 'ok' };
-    if (system.includes('triage')) message.content = JSON.stringify({ category: 'refund', priority: 'normal', sentiment: 'negative', language: 'en', needsHuman: false, reason: 'Broken item.' });
+    if (system.includes('triage')) message.content = JSON.stringify({ category: 'returns', priority: 'normal', sentiment: 'negative', language: 'en', needsHuman: false, reason: 'Broken item.' });
     if (system.includes('first reply') && !body.messages.some((entry) => entry.role === 'tool')) {
       message = { role: 'assistant', content: null, tool_calls: [{ id: 't1', type: 'function', function: { name: 'lookup_order', arguments: '{"orderId":"2210"}' } }] };
     } else if (system.includes('first reply')) message.content = 'Sorry about order 2210, Tom. Acme Support';
@@ -37,7 +37,7 @@ const post = (path, body) => fetch(`${base}${path}`, { method: 'POST', headers: 
 
 test('triage answers structured JSON with the model and its usage', async () => {
   const result = await post('/v1/triage', { message: 'My mug from order 2210 arrived broken. Mail me at tom@example.co.uk' });
-  assert.equal(result.category, 'refund');
+  assert.equal(result.category, 'returns');
   assert.deepEqual(result.masked, ['email']);
   assert.equal(result.usage.totalTokens, 60);
 });

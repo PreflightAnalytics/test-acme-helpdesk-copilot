@@ -12,7 +12,7 @@ request:
     message: The oak serving plate from order 2210 arrived with a crack across the middle.
 expected:
   status: 200
-  jsonSchema: '{"type":"object","required":["category","priority","sentiment","language","needsHuman","reason"],"properties":{"category":{"enum":["refund","shipping","account","product","other"]},"priority":{"enum":["urgent","normal","low"]},"sentiment":{"enum":["positive","neutral","negative"]},"language":{"type":"string","minLength":2,"maxLength":2},"needsHuman":{"type":"boolean"},"reason":{"type":"string","minLength":3}}}'
+  jsonSchema: '{"type":"object","required":["category","priority","sentiment","language","needsHuman","reason"],"properties":{"category":{"enum":["returns","delivery","account","product","other"]},"priority":{"enum":["urgent","normal","low"]},"sentiment":{"enum":["positive","neutral","negative"]},"language":{"type":"string","minLength":2,"maxLength":2},"needsHuman":{"type":"boolean"},"reason":{"type":"string","minLength":3}}}'
   assertions:
-    - { id: cracked-is-refund, kind: json_path, path: $.category, expected: refund }
+    - { id: cracked-is-refund, kind: json_path, path: $.category, expected: returns }
     - { id: english, kind: json_path, path: $.language, expected: en }
