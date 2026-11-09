@@ -1,7 +1,7 @@
 schemaVersion: 1.0.0
-id: expected_value_from_an_earlier_step
+id: late_parcel_is_triaged_the_same_twice
 feature: Refund triage
-title: "Probe: a later step's check compares against an earlier step's value"
+title: The same late-parcel ticket is triaged into the same category twice
 type: flow
 tags: [probe, flow]
 steps:
