@@ -1,0 +1,19 @@
+schemaVersion: 1.0.0
+id: gift_card_validity_is_answered
+feature: Help-center answers
+title: A question about how long a gift card lasts is answered from the gift-card article, with its citation
+type: single_call
+tags: [answers, retrieval]
+request:
+  method: POST
+  endpoint: /v1/answers
+  format: json
+  body:
+    question: How long is a gift card valid?
+expected:
+  status: 200
+  checks:
+    - { id: retrieved-gift-cards, type: required_retrieval, documentId: kb-gift-cards }
+    - { id: twenty-four-months, type: text_regex, path: $.answer, pattern: '24 months|two years', flags: i }
+  assertions:
+    - { id: cites-gift-cards, kind: array_contains, path: $.citations, values: [kb-gift-cards] }
