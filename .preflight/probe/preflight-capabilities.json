@@ -14,7 +14,7 @@
       "path": "scenarios/photo-upload-reaches-the-app.yaml"
     },
     {
-      "path": "scenarios/expected-value-from-an-earlier-step.yaml"
+      "path": "scenarios/late-parcel-is-triaged-the-same-twice.yaml"
     }
   ]
 }
