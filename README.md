@@ -9,7 +9,7 @@ The copilot helps Acme's support agents and their team leads with these jobs, ea
 | Refund triage | `POST /v1/triage` | Labels a ticket (category, priority, sentiment, language, needs a person) as JSON. |
 | Reply drafting | `POST /v1/replies` | Drafts the first reply, grounded in the order and Acme's refund policy (`lookup_order`, `check_refund_policy`). |
 | Thread summaries | `POST /v1/summaries` | Summarises a thread for the next agent, with the order numbers and the next action. |
-| Help-center answers | `POST /v1/answers` | Answers from the help-center articles in `kb/`, with citations, and hands over when they don't cover the question. |
+| Help-center answers | `POST /v1/answers` | Answers from the help-center articles in `kb/` (account security, damaged items, gift cards, order tracking, returns, shipping times), with citations, and hands over when they don't cover the question. |
 | Tag incoming tickets by product area | `POST /v1/tags` | Tags a ticket with the one product area its team owns (billing, shipping, returns, warranty, account or catalog), in any language agents see. |
 | Reply quality reviews | `POST /v1/reviews` | Reviews a reply an agent already sent against the refund policy and its tone, with a score and one coaching line. Team leads use it in weekly coaching and monthly performance reviews, so it is a high-risk use under the EU AI Act (employment). |
 
