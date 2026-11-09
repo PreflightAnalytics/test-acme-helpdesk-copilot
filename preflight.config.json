@@ -17,6 +17,61 @@
       ".preflight/probe-auth/*.json"
     ]
   },
+  "featureFiles": {
+    "refund-triage": [
+      "app/features/triage.mjs",
+      "prompts/triage.md",
+      "app/lib/model.mjs",
+      "app/lib/pii.mjs",
+      "app/server.mjs",
+      "config/models.json"
+    ],
+    "reply-drafting": [
+      "app/features/replies.mjs",
+      "prompts/replies.md",
+      "app/lib/orders.mjs",
+      "data/orders.json",
+      "data/customers.json",
+      "app/lib/model.mjs",
+      "app/lib/pii.mjs",
+      "app/server.mjs",
+      "config/models.json"
+    ],
+    "thread-summaries": [
+      "app/features/summaries.mjs",
+      "prompts/summaries.md",
+      "app/lib/model.mjs",
+      "app/lib/pii.mjs",
+      "app/server.mjs",
+      "config/models.json"
+    ],
+    "help-center-answers": [
+      "app/features/answers.mjs",
+      "prompts/answers.md",
+      "app/lib/kb.mjs",
+      "kb/*.md",
+      "app/lib/model.mjs",
+      "app/lib/pii.mjs",
+      "app/server.mjs",
+      "config/models.json"
+    ],
+    "tag-incoming-tickets-by-product-area": [
+      "app/features/tags.mjs",
+      "prompts/tags.md",
+      "app/lib/model.mjs",
+      "app/lib/pii.mjs",
+      "app/server.mjs",
+      "config/models.json"
+    ],
+    "reply-quality-reviews": [
+      "app/features/reviews.mjs",
+      "prompts/reviews.md",
+      "app/lib/model.mjs",
+      "app/lib/pii.mjs",
+      "app/server.mjs",
+      "config/models.json"
+    ]
+  },
   "upload": {
     "enabled": true,
     "apiBaseUrl": "http://127.0.0.1:4100",
@@ -29,5 +84,12 @@
   },
   "scenarios": {
     "missingTemplateValuePolicy": "error"
-  }
+  },
+  "nonAppFiles": [
+    "README.md",
+    "policies/refund-policy.md",
+    ".github/**",
+    ".gitignore",
+    "test/**"
+  ]
 }
